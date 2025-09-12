@@ -1,0 +1,22 @@
+<idea-plugin>
+    <id>com.github.strindberg.emacsj-plus</id>
+    <name>EmacsJ-plus</name>
+    <vendor>Jesper Holmberg</vendor>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.github.strindberg.emacsj</depends>
+
+    <resource-bundle>messages.EmacsJPlusBundle</resource-bundle>
+
+    <extensions defaultExtensionNs="com.intellij">
+    </extensions>
+
+    <actions>
+        <action id="com.github.strindberg.emacsjplus.actions.rectangle.rectangleselect"
+                class="com.github.strindberg.emacsjplus.actions.rectangle.RectangleSelectAction">
+            <keyboard-shortcut first-keystroke="control X" second-keystroke="SPACE" keymap="$default"/>
+            <keyboard-shortcut first-keystroke="control X" second-keystroke="SPACE" keymap="Emacs"/>
+        </action>
+    </actions>
+
+</idea-plugin>
