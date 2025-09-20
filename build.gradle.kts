@@ -137,18 +137,6 @@ tasks {
     }
 }
 
-val runIde43 by intellijPlatformTesting.runIde.registering {
-    version = "2024.3.5"
-}
-
-val runIde51 by intellijPlatformTesting.runIde.registering {
-    version = "2025.1.1"
-}
-
-val runIde52 by intellijPlatformTesting.runIde.registering {
-    version = "2025.2.0"
-}
-
 changelog {
     groups.empty()
     repositoryUrl = providers.gradleProperty("pluginRepositoryUrl")
