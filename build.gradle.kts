@@ -22,7 +22,7 @@ repositories {
 
     intellijPlatform {
         defaultRepositories()
-    }
+   }
 }
 
 dependencies {
@@ -37,7 +37,7 @@ dependencies {
 
         plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
 
-        plugin("com.github.strindberg.emacsj:1.4.3")
+        plugin("com.github.strindberg.emacsj:1.5.1-beta.02@beta")
 
         testFramework(TestFrameworkType.Platform)
     }
@@ -92,7 +92,8 @@ intellijPlatform {
     publishing {
         token = providers.environmentVariable("PUBLISH_TOKEN")
         channels =
-            providers.gradleProperty("pluginVersion").map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
+            providers.gradleProperty("pluginVersion")
+                .map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
     }
 
     pluginVerification {

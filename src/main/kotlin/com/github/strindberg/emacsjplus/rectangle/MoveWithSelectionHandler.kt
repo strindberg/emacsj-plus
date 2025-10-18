@@ -34,7 +34,6 @@ class MoveWithSelectionHandler(val type: MovementType) : EditorActionHandler() {
                 MovementType.LEFT -> getAction("EditorLeftWithSelection", "EditorLeft")
             }
             action.handler.execute(editor, caret, dataContext)
-
         }
     }
 

@@ -21,13 +21,17 @@ class RectangleSelectHandler : EditorActionHandler() {
             isRectangleSelection = !isRectangleSelection
             if (isRectangleSelection) {
                 ex.caretModel.removeSecondaryCarets()
+
                 val selectionModel = editor.selectionModel
+
                 val selStart = selectionModel.selectionStart
                 val logicalSelStart = editor.offsetToLogicalPosition(selectionModel.selectionStart)
                 val logicalSelEnd = editor.offsetToLogicalPosition(selectionModel.selectionEnd)
+
                 val caretOffset = ex.caretModel.offset
                 val blockStart = if (selStart == caretOffset) logicalSelEnd else logicalSelStart
                 val blockEnd = if (selStart == caretOffset) logicalSelStart else logicalSelEnd
+
                 ex.isStickySelection = false
                 ex.isColumnMode = true
                 selectionModel.setBlockSelection(blockStart, blockEnd)

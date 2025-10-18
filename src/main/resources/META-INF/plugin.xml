@@ -8,30 +8,35 @@
 
     <resource-bundle>messages.EmacsJPlusBundle</resource-bundle>
 
-    <extensions defaultExtensionNs="com.intellij">
-    </extensions>
+    <extensions defaultExtensionNs="com.intellij"/>
 
     <actions>
-        <!--BackwardParagraphWithSelectionAction.java-->
-        <!--ForwardParagraphWithSelectionAction.java-->
-        <!--LineEndWithSelectionAction.java-->
-        <!--LineStartWithSelectionAction.java-->
         <!--MoveCaretDownWithSelectionAction.java-->
         <!--MoveCaretLeftWithSelectionAction.java-->
         <!--MoveCaretRightWithSelectionAction.java-->
         <!--MoveCaretUpWithSelectionAction.java-->
+
         <!--MoveDownWithSelectionAndScrollAction.java-->
         <!--MoveUpWithSelectionAndScrollAction.java-->
+
         <!--NextWordInDifferentHumpsModeWithSelectionAction.java-->
-        <!--NextWordWithSelectionAction.java-->
+        <!--PreviousWordInDifferentHumpsModeWithSelectionAction.java-->
+
+        <!--BackwardParagraphWithSelectionAction.java-->
+        <!--ForwardParagraphWithSelectionAction.java-->
+
         <!--PageBottomWithSelectionAction.java-->
         <!--PageDownWithSelectionAction.java-->
         <!--PageTopWithSelectionAction.java-->
         <!--PageUpWithSelectionAction.java-->
-        <!--PreviousWordInDifferentHumpsModeWithSelectionAction.java-->
+
+        <!--LineEndWithSelectionAction.java-->
+        <!--LineStartWithSelectionAction.java-->
+        <!--NextWordWithSelectionAction.java-->
         <!--PreviousWordWithSelectionAction.java-->
         <!--TextEndWithSelectionAction.java-->
         <!--TextStartWithSelectionAction.java-->
+
         <action id="com.github.strindberg.emacsjplus.actions.rectangle.rectangleselect"
                 class="com.github.strindberg.emacsjplus.actions.rectangle.RectangleSelectAction">
             <keyboard-shortcut first-keystroke="control X" second-keystroke="SPACE" keymap="$default"/>
@@ -57,6 +62,7 @@
             <keyboard-shortcut first-keystroke="control B" keymap="$default"/>
             <keyboard-shortcut first-keystroke="control B" keymap="Emacs"/>
         </action>
+
         <action id="com.github.strindberg.emacsjplus.actions.selection.selectnextoccurrence"
                 class="com.github.strindberg.emacsjplus.actions.selection.SelectNextOccurrenceAction">
             <keyboard-shortcut first-keystroke="control shift SPACE" keymap="$default"/>
@@ -67,6 +73,13 @@
             <keyboard-shortcut first-keystroke="shift alt SPACE" keymap="$default"/>
             <keyboard-shortcut first-keystroke="shift alt SPACE" keymap="Emacs"/>
         </action>
+
+        <action id="com.github.strindberg.emacsjplus.actions.macro.runlastmacro"
+                class="com.github.strindberg.emacsjplus.actions.macro.RunLastMacroAction">
+            <keyboard-shortcut first-keystroke="control X" second-keystroke="E" keymap="$default"/>
+            <keyboard-shortcut first-keystroke="control X" second-keystroke="E" keymap="Emacs"/>
+        </action>
+
     </actions>
 
 </idea-plugin>
