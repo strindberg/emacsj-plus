@@ -1,10 +1,7 @@
 package com.github.strindberg.emacsjplus.macro
 
 import kotlin.concurrent.thread
-import com.github.strindberg.emacsj.EmacsJCommandListener
-import com.github.strindberg.emacsj.universal.UniversalArgumentDelegate
-import com.github.strindberg.emacsj.universal.UniversalArgumentHandler
-import com.github.strindberg.emacsj.universal.universalCommandNames
+import com.github.strindberg.emacsj.EmacsJService
 import com.intellij.ide.actionMacro.ActionMacroManager
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.application.WriteAction
@@ -20,25 +17,20 @@ class RunLastMacroHandler : EditorWriteActionHandler() {
 
     companion object {
         init {
-            UniversalArgumentDelegate.registerSingleAction(ACTION_RUN_LAST_MACRO)
+            EmacsJService.instance.registerSingleAction(ACTION_RUN_LAST_MACRO)
         }
     }
 
     override fun executeWriteAction(editor: Editor, caret: Caret?, dataContext: DataContext) {
         val macroManager = ActionMacroManager.getInstance()
         if (macroManager.hasRecentMacro()) {
-            val times =
-                if (EmacsJCommandListener.lastCommandNames.toList().any { it in universalCommandNames }) {
-                    UniversalArgumentHandler.lastArgument
-                } else {
-                    1
-                }
+            val times = EmacsJService.instance.universalArgument()
             WriteAction.run<Throwable> {
                 thread {
-                    UniversalArgumentHandler.repeating = true
+                    EmacsJService.instance.setRepeating(true)
                     try {
                         repeat(times) {
-                            if (UniversalArgumentHandler.repeating) {
+                            if (EmacsJService.instance.isRepeating()) {
                                 macroManager.playbackLastMacro()
                                 do {
                                     Thread.sleep(10)
@@ -46,7 +38,7 @@ class RunLastMacroHandler : EditorWriteActionHandler() {
                             }
                         }
                     } finally {
-                        UniversalArgumentHandler.repeating = false
+                        EmacsJService.instance.setRepeating(false)
                     }
                 }
             }

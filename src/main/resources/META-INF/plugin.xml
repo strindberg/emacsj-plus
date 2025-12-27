@@ -39,44 +39,36 @@
 
         <action id="com.github.strindberg.emacsjplus.actions.rectangle.rectangleselect"
                 class="com.github.strindberg.emacsjplus.actions.rectangle.RectangleSelectAction">
-            <keyboard-shortcut first-keystroke="control X" second-keystroke="SPACE" keymap="$default"/>
             <keyboard-shortcut first-keystroke="control X" second-keystroke="SPACE" keymap="Emacs"/>
         </action>
         <action id="com.github.strindberg.emacsjplus.actions.rectangle.movecaretdown"
                 class="com.github.strindberg.emacsjplus.actions.rectangle.MoveCaretDownAction">
-            <keyboard-shortcut first-keystroke="control N" keymap="$default"/>
             <keyboard-shortcut first-keystroke="control N" keymap="Emacs"/>
         </action>
         <action id="com.github.strindberg.emacsjplus.actions.rectangle.movecaretup"
                 class="com.github.strindberg.emacsjplus.actions.rectangle.MoveCaretUpAction">
-            <keyboard-shortcut first-keystroke="control P" keymap="$default"/>
             <keyboard-shortcut first-keystroke="control P" keymap="Emacs"/>
         </action>
         <action id="com.github.strindberg.emacsjplus.actions.rectangle.movecaretleft"
                 class="com.github.strindberg.emacsjplus.actions.rectangle.MoveCaretRightAction">
-            <keyboard-shortcut first-keystroke="control F" keymap="$default"/>
             <keyboard-shortcut first-keystroke="control F" keymap="Emacs"/>
         </action>
         <action id="com.github.strindberg.emacsjplus.actions.rectangle.movecaretright"
                 class="com.github.strindberg.emacsjplus.actions.rectangle.MoveCaretLeftAction">
-            <keyboard-shortcut first-keystroke="control B" keymap="$default"/>
             <keyboard-shortcut first-keystroke="control B" keymap="Emacs"/>
         </action>
 
         <action id="com.github.strindberg.emacsjplus.actions.selection.selectnextoccurrence"
                 class="com.github.strindberg.emacsjplus.actions.selection.SelectNextOccurrenceAction">
-            <keyboard-shortcut first-keystroke="control shift SPACE" keymap="$default"/>
             <keyboard-shortcut first-keystroke="control shift SPACE" keymap="Emacs"/>
         </action>
         <action id="com.github.strindberg.emacsjplus.actions.selection.selectalloccurrences"
                 class="com.github.strindberg.emacsjplus.actions.selection.SelectAllOccurrencesAction">
-            <keyboard-shortcut first-keystroke="shift alt SPACE" keymap="$default"/>
             <keyboard-shortcut first-keystroke="shift alt SPACE" keymap="Emacs"/>
         </action>
 
         <action id="com.github.strindberg.emacsjplus.actions.macro.runlastmacro"
                 class="com.github.strindberg.emacsjplus.actions.macro.RunLastMacroAction">
-            <keyboard-shortcut first-keystroke="control X" second-keystroke="E" keymap="$default"/>
             <keyboard-shortcut first-keystroke="control X" second-keystroke="E" keymap="Emacs"/>
         </action>
 
