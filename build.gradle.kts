@@ -1,8 +1,7 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
-
-fun properties(key: String) = providers.gradleProperty(key)
 
 plugins {
     alias(libs.plugins.changelog)
@@ -11,11 +10,10 @@ plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kover)
     alias(libs.plugins.ktlint)
-    alias(libs.plugins.qodana)
 }
 
-group = properties("pluginGroup").get()
-version = properties("pluginVersion").get()
+group = "com.github.strindberg.emacsj"
+version = providers.gradleProperty("pluginVersion").get()
 
 repositories {
     mavenCentral()
@@ -31,13 +29,11 @@ dependencies {
     detektPlugins(libs.detekt)
 
     intellijPlatform {
-        create(providers.gradleProperty("platformType"), providers.gradleProperty("platformVersion"))
+        create(IntelliJPlatformType.IntellijIdeaCommunity, providers.gradleProperty("platformVersion")) {}
 
-        bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
+        bundledPlugins(listOf("com.intellij.java", "org.jetbrains.kotlin"))
 
-        plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
-
-        plugin("com.github.strindberg.emacsj:1.5.1-beta.02@beta")
+        plugin("com.github.strindberg.emacsj:1.5.2.2-beta1@beta1")
 
         testFramework(TestFrameworkType.Platform)
     }
@@ -92,8 +88,7 @@ intellijPlatform {
     publishing {
         token = providers.environmentVariable("PUBLISH_TOKEN")
         channels =
-            providers.gradleProperty("pluginVersion")
-                .map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
+            providers.gradleProperty("pluginVersion").map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
     }
 
     pluginVerification {
@@ -140,7 +135,7 @@ tasks {
 
 changelog {
     groups.empty()
-    repositoryUrl = providers.gradleProperty("pluginRepositoryUrl")
+    repositoryUrl = "https://github.com/strindberg/emacsj"
 }
 
 kover {
