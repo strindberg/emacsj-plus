@@ -33,7 +33,7 @@ dependencies {
 
         bundledPlugins(listOf("com.intellij.java", "org.jetbrains.kotlin"))
 
-        plugin("com.github.strindberg.emacsj:1.5.2.2-beta1@beta1")
+        plugin("com.github.strindberg.emacsj:1.5.2")
 
         testFramework(TestFrameworkType.Platform)
     }
