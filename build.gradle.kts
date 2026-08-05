@@ -20,20 +20,18 @@ repositories {
 
     intellijPlatform {
         defaultRepositories()
-   }
+    }
 }
 
 dependencies {
     testImplementation(libs.junit)
-
-    detektPlugins(libs.detekt)
 
     intellijPlatform {
         create(IntelliJPlatformType.IntellijIdeaCommunity, providers.gradleProperty("platformVersion")) {}
 
         bundledPlugins(listOf("com.intellij.java", "org.jetbrains.kotlin"))
 
-        plugin("com.github.strindberg.emacsj:1.5.2")
+        plugin("com.github.strindberg.emacsj:1.5.7")
 
         testFramework(TestFrameworkType.Platform)
     }
@@ -41,7 +39,7 @@ dependencies {
 
 kotlin {
     jvmToolchain(21)
-    compilerOptions.freeCompilerArgs.addAll("-Xjsr305=strict")
+    compilerOptions.freeCompilerArgs.addAll("-Xjsr305=strict", "-Xreturn-value-checker=full")
 }
 
 intellijPlatform {
@@ -104,7 +102,8 @@ tasks {
             listOf(
                 "-Dide.show.tips.on.startup.default.value=false",
                 "-Dide.experimental.ui=true",
-                "-Didea.trust.all.projects=true"
+                "-Didea.trust.all.projects=true",
+                "-Dide.plugins.snapshot.on.unload.fail=true",
             )
         }
     }
@@ -153,6 +152,8 @@ kover {
     }
 }
 
+
 detekt {
-    config.setFrom(file("$rootDir/detekt.yml"))
+    config.setFrom(file("$rootDir/detekt2.yml"))
+    buildUponDefaultConfig = true
 }

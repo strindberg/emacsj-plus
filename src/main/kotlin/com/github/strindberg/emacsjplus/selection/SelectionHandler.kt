@@ -5,6 +5,13 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys.EDITOR
 import com.intellij.openapi.actionSystem.get
 import com.intellij.openapi.editor.ex.EditorEx
+import org.intellij.lang.annotations.Language
+
+@Language("devkit-action-id")
+internal const val ACTION_SELECT_NEXT_OCCURRENCE = "com.github.strindberg.emacsjplus.actions.selection.selectnextoccurrence"
+
+@Language("devkit-action-id")
+internal const val ACTION_SELECT_ALL_OCCURRENCES = "com.github.strindberg.emacsjplus.actions.selection.selectalloccurrences"
 
 enum class SelectionType { NEXT, ALL }
 

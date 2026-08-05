@@ -8,8 +8,6 @@
 
     <resource-bundle>messages.EmacsJPlusBundle</resource-bundle>
 
-    <extensions defaultExtensionNs="com.intellij"/>
-
     <actions>
         <action id="com.github.strindberg.emacsjplus.actions.selection.selectnextoccurrence"
                 class="com.github.strindberg.emacsjplus.actions.selection.SelectNextOccurrenceAction">
