@@ -13,6 +13,9 @@ import org.intellij.lang.annotations.Language
 @Language("devkit-action-id")
 internal const val ACTION_RUN_LAST_MACRO = "com.github.strindberg.emacsjplus.actions.macro.runlastmacro"
 
+/**
+ * Speed of macro execution can be configured through the registry: registry -> actionSystem.playback.typecommand.delay
+ */
 class RunLastMacroHandler : EditorWriteActionHandler() {
 
     companion object {
