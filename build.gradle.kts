@@ -23,23 +23,31 @@ repositories {
     }
 }
 
+testing.suites.named<JvmTestSuite>("test") {
+    useJUnitJupiter(libs.versions.jupiter)
+}
+
 dependencies {
-    testImplementation(libs.junit)
+    // No test uses JUnit 4, but the platform test framework touches junit.framework.TestCase.
+    testRuntimeOnly(libs.junit)
 
     intellijPlatform {
         create(IntelliJPlatformType.IntellijIdeaCommunity, providers.gradleProperty("platformVersion")) {}
 
         bundledPlugins(listOf("com.intellij.java", "org.jetbrains.kotlin"))
 
-        plugin("com.github.strindberg.emacsj:1.5.7")
+        plugin("com.github.strindberg.emacsj:1.6.1.1-beta@beta")
 
         testFramework(TestFrameworkType.Platform)
+        testFramework(TestFrameworkType.JUnit5)
     }
 }
 
 kotlin {
     jvmToolchain(21)
-    compilerOptions.freeCompilerArgs.addAll("-Xjsr305=strict", "-Xreturn-value-checker=full")
+    // Pinned to the Kotlin stdlib the IDE actually ships (2.1.21 in 2025.2).
+    compilerOptions.apiVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1
+    compilerOptions.freeCompilerArgs.addAll("-Xjsr305=strict", "-Xreturn-value-checker=full", "-Xcollection-literals")
 }
 
 intellijPlatform {
@@ -151,7 +159,6 @@ kover {
         }
     }
 }
-
 
 detekt {
     config.setFrom(file("$rootDir/detekt2.yml"))
