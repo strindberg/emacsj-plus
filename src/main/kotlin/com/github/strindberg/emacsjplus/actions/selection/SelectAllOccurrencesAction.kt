@@ -18,6 +18,6 @@ class SelectAllOccurrencesAction : DumbAwareAction() {
     }
 
     override fun actionPerformed(e: AnActionEvent) {
-        handler.doExecute(e)
+        handler.doExecute(this, e)
     }
 }

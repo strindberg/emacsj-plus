@@ -1,6 +1,8 @@
 package com.github.strindberg.emacsjplus.selection
 
+import com.github.strindberg.emacsjplus.isEnabledIn
 import com.intellij.openapi.actionSystem.ActionManager
+import com.intellij.openapi.actionSystem.ActionWrapperUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys.EDITOR
@@ -32,16 +34,14 @@ class SelectionHandler(private val type: SelectionType) {
 
     fun update(e: AnActionEvent) {
         val delegate = delegate()
-        if (delegate == null) {
-            e.presentation.isEnabled = false
-        } else {
-            delegate.update(e)
-        }
+        e.presentation.isEnabled = delegate != null && delegate.isEnabledIn(e)
     }
 
-    fun doExecute(e: AnActionEvent) {
-        (e.dataContext[EDITOR] as? EditorEx)?.dropStickySelection()
-        delegate()?.actionPerformed(e)
+    fun doExecute(wrapper: AnAction, e: AnActionEvent) {
+        delegate()?.let { delegate ->
+            (e.dataContext[EDITOR] as? EditorEx)?.dropStickySelection()
+            ActionWrapperUtil.actionPerformed(e, wrapper, delegate)
+        }
     }
 
     private fun delegate(): AnAction? = ActionManager.getInstance().getAction(type.platformActionId)

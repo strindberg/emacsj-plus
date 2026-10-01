@@ -23,6 +23,7 @@ repositories {
     }
 }
 
+@Suppress("UnstableApiUsage")
 testing.suites.named<JvmTestSuite>("test") {
     useJUnitJupiter(libs.versions.jupiter)
 }
@@ -36,7 +37,7 @@ dependencies {
 
         bundledPlugins(listOf("com.intellij.java", "org.jetbrains.kotlin"))
 
-        plugin("com.github.strindberg.emacsj:1.6.1.1-beta@beta")
+        plugin("com.github.strindberg.emacsj:1.6.1")
 
         testFramework(TestFrameworkType.Platform)
         testFramework(TestFrameworkType.JUnit5)

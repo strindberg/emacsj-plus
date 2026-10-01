@@ -3,10 +3,12 @@ package com.github.strindberg.emacsjplus.macro
 import kotlin.time.Duration.Companion.milliseconds
 import com.github.strindberg.emacsj.EmacsJService
 import com.github.strindberg.emacsjplus.EmacsJPlusScope
+import com.github.strindberg.emacsjplus.isEnabledIn
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.ActionPlaces
 import com.intellij.openapi.actionSystem.ActionUiKind
+import com.intellij.openapi.actionSystem.ActionWrapperUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys.EDITOR
@@ -50,31 +52,29 @@ class RunLastMacroHandler {
 
     fun update(e: AnActionEvent) {
         val delegate = delegate()
-        if (delegate == null) {
-            e.presentation.isEnabled = false
-        } else {
-            delegate.update(e)
-        }
+        e.presentation.isEnabled = delegate != null && delegate.isEnabledIn(e)
     }
 
-    fun doExecute(e: AnActionEvent) {
-        val delegate = delegate() ?: return
-        val editor = e.dataContext[EDITOR] ?: return
-        val times = EmacsJService.instance.universalArgument()
+    fun doExecute(wrapper: AnAction, e: AnActionEvent) {
+        delegate()?.let { delegate ->
+            e.dataContext[EDITOR]?.let { editor ->
+                val times = EmacsJService.instance.universalArgument()
 
-        // Playback returns before the macro has run, so the repetitions are driven from a coroutine rather than by blocking
-        // the caller. Dispatchers.EDT keeps every action invocation on the thread the action system expects.
-        EmacsJPlusScope.instance.scope.launch(Dispatchers.EDT) {
-            EmacsJService.instance.setRepeating(true)
-            try {
-                var remaining = times
-                while (remaining > 0 && EmacsJService.instance.isRepeating() && !editor.isDisposed) {
-                    delegate.actionPerformed(delegate.event(editor))
-                    delegate.awaitPlaybackFinished(editor)
-                    remaining--
+                // Playback returns before the macro has run, so the repetitions are driven from a coroutine rather than by blocking
+                // the caller. Dispatchers.EDT keeps every action invocation on the thread the action system expects.
+                EmacsJPlusScope.instance.scope.launch(Dispatchers.EDT) {
+                    EmacsJService.instance.setRepeating(true)
+                    try {
+                        var remaining = times
+                        while (remaining > 0 && EmacsJService.instance.isRepeating() && !editor.isDisposed) {
+                            ActionWrapperUtil.actionPerformed(delegate.event(editor), wrapper, delegate)
+                            delegate.awaitPlaybackFinished(editor)
+                            remaining--
+                        }
+                    } finally {
+                        EmacsJService.instance.setRepeating(false)
+                    }
                 }
-            } finally {
-                EmacsJService.instance.setRepeating(false)
             }
         }
     }
@@ -85,16 +85,10 @@ class RunLastMacroHandler {
 private suspend fun AnAction.awaitPlaybackFinished(editor: Editor) {
     // isRepeating is checked as well, so that cancelling a repeat also breaks a wait that would otherwise never end -
     // the delegate stays disabled for as long as a macro is playing, but also if the last macro is removed meanwhile.
-    while (!isEnabledFor(editor) && EmacsJService.instance.isRepeating() && !editor.isDisposed) {
+    while (!isEnabledIn(event(editor)) && EmacsJService.instance.isRepeating() && !editor.isDisposed) {
         delay(PLAYBACK_POLL)
     }
 }
-
-private fun AnAction.isEnabledFor(editor: Editor): Boolean =
-    event(editor).let { event ->
-        update(event)
-        event.presentation.isEnabled
-    }
 
 private fun AnAction.event(editor: Editor): AnActionEvent =
     AnActionEvent.createEvent(
